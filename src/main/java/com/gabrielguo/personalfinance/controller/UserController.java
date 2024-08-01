@@ -1,7 +1,9 @@
 package com.gabrielguo.personalfinance.controller;
 
 import com.gabrielguo.personalfinance.model.User;
+import com.gabrielguo.personalfinance.model.UserSettings;
 import com.gabrielguo.personalfinance.service.UserService;
+import com.gabrielguo.personalfinance.service.UserSettingsService;
 import jakarta.mail.MessagingException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -21,6 +23,9 @@ public class UserController {
     // Dependency Injection of UserService
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private UserSettingsService userSettingsService;
 
     /**
      * Creates a new user with the provided details.
@@ -116,5 +121,24 @@ public class UserController {
             return ResponseEntity.status(500).body("Error resetting password.");
         }
     }
+
+    @GetMapping("/{userId}/settings")
+    public ResponseEntity<UserSettings> getUserSettings(@PathVariable String userId) {
+        UserSettings userSettings = userSettingsService.getUserSettings(userId);
+        return ResponseEntity.ok(userSettings);
+    }
+
+    @PutMapping("/{userId}/settings")
+    public ResponseEntity<UserSettings> updateUserSettings(@PathVariable String userId, @RequestBody UserSettings userSettings) {
+        UserSettings updatedUserSettings = userSettingsService.updateUserSettings(userId, userSettings);
+        return ResponseEntity.ok(updatedUserSettings);
+    }
+
+    @PostMapping("/{userId}/settings/reset")
+    public ResponseEntity<UserSettings> resetUserSettings(@PathVariable String userId) {
+        UserSettings resetSettings = userSettingsService.resetUserSettings(userId);
+        return ResponseEntity.ok(resetSettings);
+    }
+
 
 }
