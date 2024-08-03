@@ -20,8 +20,12 @@ public class Expense {
     private String userId;
     private BigDecimal amount;
     private String category;
+
+
     private Date date;
     private String description;
+
+
 
 
 }
