@@ -85,7 +85,6 @@ public class UserSettingsServiceTest {
     @Test
     public void testUpdateUserSettings() {
         // Prepare test data: existing and updated user settings
-        UserSettings existingSettings = new UserSettings("1", "user1", false, "light");
         UserSettings updatedSettings = new UserSettings("1", "user1", true, "dark");
 
         // Mock the repository to return the updated settings when saved
