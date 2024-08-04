@@ -201,9 +201,9 @@ public class UserServiceTest {
         when(userRepository.findByEmail("test@example.com")).thenReturn(Optional.empty());
 
         // Assert that an IllegalArgumentException is thrown with the correct message
-        IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class, () -> {
-            userService.sendPasswordResetEmail("test@example.com");
-        });
+        IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class, () ->
+            userService.sendPasswordResetEmail("test@example.com")
+        );
 
         assertEquals("User with email test@example.com does not exist", thrown.getMessage(), "Exception message should match");
     }
@@ -241,9 +241,9 @@ public class UserServiceTest {
         when(userRepository.findByResetToken(anyString())).thenReturn(Optional.empty());
 
         // Assert that an IllegalArgumentException is thrown with the correct message
-        IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class, () -> {
-            userService.resetPassword("invalidToken", "newpassword");
-        });
+        IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class, () ->
+            userService.resetPassword("invalidToken", "newpassword")
+        );
 
         assertEquals("Invalid or expired reset token.", thrown.getMessage(), "Exception message should match");
     }
