@@ -25,4 +25,12 @@ public class User {
         this.username = username;
         this.password = password;
     }
+
+    //Mock test constructor
+    public User(String id, String email, String username, String password) {
+        this.id = id;
+        this.email = email;
+        this.username = username;
+        this.password = password;
+    }
 }
