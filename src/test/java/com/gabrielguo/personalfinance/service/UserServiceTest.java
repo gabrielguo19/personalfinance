@@ -102,9 +102,9 @@ public class UserServiceTest {
         when(userRepository.findById("1")).thenReturn(Optional.empty());
 
         // Assert that a ResourceNotFoundException is thrown with the correct message
-        ResourceNotFoundException thrown = assertThrows(ResourceNotFoundException.class, () -> {
-            userService.getUserById("1");
-        });
+        ResourceNotFoundException thrown = assertThrows(ResourceNotFoundException.class, () ->
+            userService.getUserById("1")
+        );
 
         assertEquals("User not found with id: 1", thrown.getMessage(), "Exception message should match");
     }
