@@ -4,11 +4,14 @@ import com.gabrielguo.personalfinance.model.User;
 import com.gabrielguo.personalfinance.model.UserSettings;
 import com.gabrielguo.personalfinance.service.UserService;
 import com.gabrielguo.personalfinance.service.UserSettingsService;
-import jakarta.mail.MessagingException;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import jakarta.mail.MessagingException;
 import java.io.IOException;
 import java.util.List;
 
@@ -18,15 +21,14 @@ import java.util.List;
  */
 @RestController
 @RequestMapping("/api/users")
+@Tag(name = "Users", description = "Operations for managing users and their settings")
 public class UserController {
 
-    // Dependency Injection of UserService to handle user-related business logic
     @Autowired
-    private UserService userService;
+    private UserService userService; // Service for handling user-related business logic
 
-    // Dependency Injection of UserSettingsService to handle user settings-related business logic
     @Autowired
-    private UserSettingsService userSettingsService;
+    private UserSettingsService userSettingsService; // Service for handling user settings-related business logic
 
     /**
      * Creates a new user with the provided details.
@@ -35,11 +37,11 @@ public class UserController {
      * @return ResponseEntity containing the created User object
      */
     @PostMapping
-    public ResponseEntity<User> createUser(@RequestBody User user) {
-        // Call UserService to create a new user with the provided details
+    @Operation(summary = "Create a new user", description = "Creates a new user with the provided details")
+    public ResponseEntity<User> createUser(
+            @Parameter(description = "User details to be created", required = true) @RequestBody User user) {
         User createdUser = userService.createUser(user.getEmail(), user.getUsername(), user.getPassword());
-        // Return a ResponseEntity with HTTP status 200 OK and the created User object
-        return ResponseEntity.ok(createdUser);
+        return ResponseEntity.ok(createdUser); // Return the created user with HTTP 200 OK status
     }
 
     /**
@@ -50,11 +52,12 @@ public class UserController {
      * @return ResponseEntity containing the updated User object
      */
     @PutMapping("/{userId}")
-    public ResponseEntity<User> updateUser(@PathVariable String userId, @RequestBody User user) {
-        // Call UserService to update the user with the specified ID and the new details
+    @Operation(summary = "Update an existing user", description = "Updates the user with the specified ID")
+    public ResponseEntity<User> updateUser(
+            @Parameter(description = "ID of the user to be updated", required = true) @PathVariable String userId,
+            @Parameter(description = "Updated user details", required = true) @RequestBody User user) {
         User updatedUser = userService.updateUser(userId, user);
-        // Return a ResponseEntity with HTTP status 200 OK and the updated User object
-        return ResponseEntity.ok(updatedUser);
+        return ResponseEntity.ok(updatedUser); // Return the updated user with HTTP 200 OK status
     }
 
     /**
@@ -64,11 +67,11 @@ public class UserController {
      * @return ResponseEntity containing the User object
      */
     @GetMapping("/{userId}")
-    public ResponseEntity<User> getUserById(@PathVariable String userId) {
-        // Call UserService to retrieve the user with the specified ID
+    @Operation(summary = "Retrieve a user by ID", description = "Retrieves the user with the specified ID")
+    public ResponseEntity<User> getUserById(
+            @Parameter(description = "ID of the user to be retrieved", required = true) @PathVariable String userId) {
         User user = userService.getUserById(userId);
-        // Return a ResponseEntity with HTTP status 200 OK and the retrieved User object
-        return ResponseEntity.ok(user);
+        return ResponseEntity.ok(user); // Return the user with HTTP 200 OK status
     }
 
     /**
@@ -77,11 +80,10 @@ public class UserController {
      * @return ResponseEntity containing a list of all User objects
      */
     @GetMapping
+    @Operation(summary = "Retrieve all users", description = "Retrieves a list of all users in the system")
     public ResponseEntity<List<User>> getAllUsers() {
-        // Call UserService to retrieve all users
         List<User> users = userService.getAllUsers();
-        // Return a ResponseEntity with HTTP status 200 OK and the list of all User objects
-        return ResponseEntity.ok(users);
+        return ResponseEntity.ok(users); // Return the list of users with HTTP 200 OK status
     }
 
     /**
@@ -91,11 +93,11 @@ public class UserController {
      * @return ResponseEntity with no content
      */
     @DeleteMapping("/{userId}")
-    public ResponseEntity<Void> deleteUser(@PathVariable String userId) {
-        // Call UserService to delete the user with the specified ID
+    @Operation(summary = "Delete a user", description = "Deletes the user with the specified ID")
+    public ResponseEntity<Void> deleteUser(
+            @Parameter(description = "ID of the user to be deleted", required = true) @PathVariable String userId) {
         userService.deleteUser(userId);
-        // Return a ResponseEntity with HTTP status 204 No Content
-        return ResponseEntity.noContent().build();
+        return ResponseEntity.noContent().build(); // Return HTTP 204 No Content status indicating successful deletion
     }
 
     /**
@@ -106,17 +108,15 @@ public class UserController {
      * @return ResponseEntity containing a message indicating the result of the request
      */
     @PostMapping("/reset-password")
-    public ResponseEntity<String> resetPassword(@RequestParam String email) {
+    @Operation(summary = "Request a password reset", description = "Sends a password reset email to the user with the specified email")
+    public ResponseEntity<String> resetPassword(
+            @Parameter(description = "Email address of the user requesting a password reset", required = true) @RequestParam String email) {
         try {
-            // Call UserService to send a password reset email to the user with the specified email address
             userService.sendPasswordResetEmail(email);
-            // Return a ResponseEntity with HTTP status 200 OK and a success message
             return ResponseEntity.ok("Password reset email sent successfully.");
         } catch (IllegalArgumentException e) {
-            // Return a ResponseEntity with HTTP status 400 Bad Request if the user does not exist
             return ResponseEntity.badRequest().body(e.getMessage());
         } catch (MessagingException | IOException e) {
-            // Return a ResponseEntity with HTTP status 500 Internal Server Error if an error occurs while sending the email
             return ResponseEntity.status(500).body("Error sending password reset email.");
         }
     }
@@ -129,17 +129,16 @@ public class UserController {
      * @return ResponseEntity containing a message indicating the result of the reset operation
      */
     @PutMapping("/reset-password")
-    public ResponseEntity<String> resetPassword(@RequestParam String token, @RequestParam String newPassword) {
+    @Operation(summary = "Reset password using token", description = "Resets the password for a user using the provided token and new password")
+    public ResponseEntity<String> resetPassword(
+            @Parameter(description = "Reset token for the password", required = true) @RequestParam String token,
+            @Parameter(description = "New password to set", required = true) @RequestParam String newPassword) {
         try {
-            // Call UserService to reset the password using the provided token and new password
             userService.resetPassword(token, newPassword);
-            // Return a ResponseEntity with HTTP status 200 OK and a success message
             return ResponseEntity.ok("Password has been successfully reset.");
         } catch (IllegalArgumentException e) {
-            // Return a ResponseEntity with HTTP status 400 Bad Request if the token or new password is invalid
             return ResponseEntity.badRequest().body(e.getMessage());
         } catch (Exception e) {
-            // Return a ResponseEntity with HTTP status 500 Internal Server Error if an error occurs during the password reset
             return ResponseEntity.status(500).body("Error resetting password.");
         }
     }
@@ -151,11 +150,11 @@ public class UserController {
      * @return ResponseEntity containing the UserSettings object
      */
     @GetMapping("/{userId}/settings")
-    public ResponseEntity<UserSettings> getUserSettings(@PathVariable String userId) {
-        // Call UserSettingsService to retrieve the settings for the user with the specified ID
+    @Operation(summary = "Retrieve user settings", description = "Retrieves the settings for a user with the specified ID")
+    public ResponseEntity<UserSettings> getUserSettings(
+            @Parameter(description = "ID of the user whose settings are to be retrieved", required = true) @PathVariable String userId) {
         UserSettings userSettings = userSettingsService.getUserSettings(userId);
-        // Return a ResponseEntity with HTTP status 200 OK and the retrieved UserSettings object
-        return ResponseEntity.ok(userSettings);
+        return ResponseEntity.ok(userSettings); // Return the user settings with HTTP 200 OK status
     }
 
     /**
@@ -166,11 +165,12 @@ public class UserController {
      * @return ResponseEntity containing the updated UserSettings object
      */
     @PutMapping("/{userId}/settings")
-    public ResponseEntity<UserSettings> updateUserSettings(@PathVariable String userId, @RequestBody UserSettings userSettings) {
-        // Call UserSettingsService to update the settings for the user with the specified ID
+    @Operation(summary = "Update user settings", description = "Updates the settings for a user with the specified ID")
+    public ResponseEntity<UserSettings> updateUserSettings(
+            @Parameter(description = "ID of the user whose settings are to be updated", required = true) @PathVariable String userId,
+            @Parameter(description = "Updated user settings", required = true) @RequestBody UserSettings userSettings) {
         UserSettings updatedUserSettings = userSettingsService.updateUserSettings(userId, userSettings);
-        // Return a ResponseEntity with HTTP status 200 OK and the updated UserSettings object
-        return ResponseEntity.ok(updatedUserSettings);
+        return ResponseEntity.ok(updatedUserSettings); // Return the updated user settings with HTTP 200 OK status
     }
 
     /**
@@ -180,10 +180,10 @@ public class UserController {
      * @return ResponseEntity containing the reset UserSettings object
      */
     @PostMapping("/{userId}/settings/reset")
-    public ResponseEntity<UserSettings> resetUserSettings(@PathVariable String userId) {
-        // Call UserSettingsService to reset the settings for the user with the specified ID
+    @Operation(summary = "Reset user settings to default", description = "Resets the settings for a user to default values")
+    public ResponseEntity<UserSettings> resetUserSettings(
+            @Parameter(description = "ID of the user whose settings are to be reset", required = true) @PathVariable String userId) {
         UserSettings resetSettings = userSettingsService.resetUserSettings(userId);
-        // Return a ResponseEntity with HTTP status 200 OK and the reset UserSettings object
-        return ResponseEntity.ok(resetSettings);
+        return ResponseEntity.ok(resetSettings); // Return the reset user settings with HTTP 200 OK status
     }
 }
