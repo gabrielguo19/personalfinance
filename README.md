@@ -12,13 +12,13 @@ This is a Spring Boot application for personal finance management. It includes a
 
 ## Setup Instructions
 
-### 1. Clone the Repository
+## 1. Clone the Repository
 ```sh
 git clone https://github.com/yourusername/your-repo-name.git
 cd your-repo-name
 ```
 
-### 2. Google API Credentials
+## 2. Google API Credentials
 - Go to the Google Cloud Console. 
 - Create a new project or select an existing project. 
 - Navigate to the API & Services > Credentials. 
@@ -31,15 +31,15 @@ cd your-repo-name
 email.setFrom(new InternetAddress("yourgmail@gmail.com"))) 
 ```
 
-### 3. MongoDB Setup
-# 1. Install MongoDB 
+## 3. MongoDB Setup
+### 1. Install MongoDB 
 if you already haven't by following the guide on [MongoDB Download](https://www.mongodb.com/try/download/community) \ 
-# 2. Setup MongoDB Atlas
+### 2. Setup MongoDB Atlas
 Go to [MongoDB Atlas](https://www.mongodb.com/atlas) and sign in or create an account. \
 Create a new cluster (you can name it as you like). \
 Click on Connect and choose a connection method (e.g., MongoDB Compass, Shell, or VSCode). \
 Copy the connection string provided. \
-# 3. Add the following configuration to your application.properties file: 
+### 3. Add the following configuration to your application.properties file: 
 ```
 spring.application.name=personalfinance
 spring.data.mongodb.database=YourDatabaseName
@@ -47,24 +47,24 @@ spring.data.mongodb.uri=mongodb+srv://username:<password>@clustername.smth.mongo
 ```
 Replace username, <password>, YourDatabaseName, and clustername with your actual MongoDB credentials and database name. \
 
-# 4. Disable Security Auto-Configuration (For Testing)
+### 4. Disable Security Auto-Configuration (For Testing)
 Add the folling line to your application.properties
 ```
 spring.autoconfigure.exclude[0]=org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration
 ```
 
 
-### 4. Install MAVEN dependencies
+## 4. Install MAVEN dependencies
 ```
 mvn clean install
 ```
 Alternatively, you can use the provided **pom.xml** file to install all necessary dependencies. 
 
-### 5. Test Endpoints
+## 5. Test Endpoints
 - Use [Postman](https://www.postman.com/) or another API testing tool to test the endpoints. 
 - Verify that you see JSON updates in MongoDB Compass or your preferred MongoDB tool. 
 
-### 5. API Documentation
+## 6. API Documentation
 Access the RESTful API documentation through Swagger/OpenAPI at:
 ```
 http://localhost:8080/swagger-ui/index.html#/ 
