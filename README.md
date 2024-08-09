@@ -29,8 +29,8 @@ This **Spring Boot** application is designed to be a comprehensive backend solut
 git clone https://github.com/yourusername/your-repo-name.git
 cd your-repo-name
 ```
-Open it using your editor of choice(IntelliJ, VSCode, Vim, etc) \
-Make sure you have some baseline Spring Boot navigational skill.
+Open it using your text editor/IDE of choice(IntelliJ, VSCode, Vim, etc) \
+
 
 ## 2. Google API Credentials
 - Go to the Google Cloud Console. 
