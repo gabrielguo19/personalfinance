@@ -32,7 +32,8 @@ email.setFrom(new InternetAddress("yourgmail@gmail.com"))) \
 ```
 
 ### 3. MongoDB Setup
-# 1. Install MongoDB if you already haven't by following the guide on [MongoDB Download]https://www.mongodb.com/try/download/community \ 
+# 1. Install MongoDB 
+if you already haven't by following the guide on [MongoDB Download](https://www.mongodb.com/try/download/community) \ 
 # 2. Setup MongoDB Atlas
 Go to [MongoDB Atlas](https://www.mongodb.com/atlas) and sign in or create an account. \
 Create a new cluster (you can name it as you like). \
