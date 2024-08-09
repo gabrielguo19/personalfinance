@@ -19,16 +19,16 @@ cd your-repo-name
 ```
 
 ### 2. Google API Credentials
-- Go to the Google Cloud Console. \
-- Create a new project or select an existing project. \
-- Navigate to the API & Services > Credentials. \
-- Create OAuth 2.0 Client IDs with the following settings: \
-- Application type: Web application \
-- Authorized redirect URIs: http://localhost:8080/oauth2/callback \
-- Download the credentials.json file and place it in the src/main/resources directory of the project. \
-- Make sure to edit the GmailService class gmail sender adress with your own for it to send emails as intended:
+- Go to the Google Cloud Console. 
+- Create a new project or select an existing project. 
+- Navigate to the API & Services > Credentials. 
+- Create OAuth 2.0 Client IDs with the following settings: 
+- Application type: Web application 
+- Authorized redirect URIs: http://localhost:8080/oauth2/callback 
+- Download the credentials.json file and place it in the src/main/resources directory of the project. 
+Make sure to edit the GmailService class gmail sender adress with your own for it to send emails as intended:
 ```
-email.setFrom(new InternetAddress("yourgmail@gmail.com"))) \
+email.setFrom(new InternetAddress("yourgmail@gmail.com"))) 
 ```
 
 ### 3. MongoDB Setup
