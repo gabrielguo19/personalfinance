@@ -29,7 +29,7 @@ These analytical insights are designed to help users plan their financial future
 git clone https://github.com/yourusername/your-repo-name.git
 cd your-repo-name
 ```
-Open it using your editor of choice(IntelliJ, VSCode, Vim, etc) \\
+Open it using your editor of choice(IntelliJ, VSCode, Vim, etc) \
 Make sure you have some baseline Spring Boot navigational skill.
 
 ## 2. Google API Credentials
