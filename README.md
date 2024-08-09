@@ -32,14 +32,14 @@ email.setFrom(new InternetAddress("yourgmail@gmail.com")))
 ```
 
 ## 3. MongoDB Setup
-### 1. Install MongoDB 
+### Install MongoDB 
 if you already haven't by following the guide on [MongoDB Download](https://www.mongodb.com/try/download/community) \ 
-### 2. Setup MongoDB Atlas
+### Setup MongoDB Atlas
 Go to [MongoDB Atlas](https://www.mongodb.com/atlas) and sign in or create an account. \
 Create a new cluster (you can name it as you like). \
 Click on Connect and choose a connection method (e.g., MongoDB Compass, Shell, or VSCode). \
 Copy the connection string provided. \
-### 3. Add the following configuration to your application.properties file: 
+### Add the following configuration to your application.properties file: 
 ```
 spring.application.name=personalfinance
 spring.data.mongodb.database=YourDatabaseName
@@ -47,7 +47,7 @@ spring.data.mongodb.uri=mongodb+srv://username:<password>@clustername.smth.mongo
 ```
 Replace username, <password>, YourDatabaseName, and clustername with your actual MongoDB credentials and database name. \
 
-### 4. Disable Security Auto-Configuration (For Testing)
+### Disable Security Auto-Configuration (For Testing)
 Add the folling line to your application.properties
 ```
 spring.autoconfigure.exclude[0]=org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration
