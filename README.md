@@ -2,7 +2,7 @@
 # Personal Finance Application(Spring Boot Backend)
 
 ## Introduction
-This Spring Boot application is designed to be a comprehensive backend solution for personal finance management. It provides an extensive set of features aimed at helping individuals effectively manage their finances. The inspiration came from a lack of cohesive budgeting from my own family. The application includes:
+This **Spring Boot** application is designed to be a comprehensive backend solution for personal finance management. It provides an extensive set of features aimed at helping individuals effectively manage their finances. The inspiration came from a lack of cohesive budgeting from my own family. The application includes:
 
 - **OAuth2 Integration:** Utilizes the Google Gmail API to enable seamless email communication. This feature allows users to send and receive emails securely as part of their financial management.
 
@@ -16,7 +16,7 @@ This Spring Boot application is designed to be a comprehensive backend solution 
   - **Category Spending:** Understand spending habits across different categories.
   - **Financial Health:** Assess overall financial well-being by comparing total income against expenses.
     
-These analytical insights are designed to help users plan their financial future by providing a clearer understanding of their financial behavior. The application enables users to make informed decisions about budgeting, saving, and investing, ultimately supporting better financial planning and management.
+***These analytical insights are designed to help users plan their financial future by providing a clearer understanding of their financial behavior. The application enables users to make informed decisions about budgeting, saving, and investing, ultimately supporting better financial planning and management.***
 ## Prerequisites
 1. Java 17 or higher
 2. Maven 3.6.0 or higher
