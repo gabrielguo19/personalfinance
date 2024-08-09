@@ -19,8 +19,8 @@ cd your-repo-name
 ```
 
 ### 2. Google API Credentials
-Go to the Google Cloud Console.
-Create a new project or select an existing project.
+Go to the Google Cloud Console. \
+Create a new project or select an existing project. \
 Navigate to the API & Services > Credentials.
 Create OAuth 2.0 Client IDs with the following settings:
 Application type: Web application
