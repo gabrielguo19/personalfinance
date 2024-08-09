@@ -1,5 +1,4 @@
-package com.gabrielguo.personalfinance.model;
-
+package com.gabrielguo.personalfinance.model.summary;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -8,21 +7,17 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.math.BigDecimal;
-import java.util.Date;
 
-@Document(collection = "incomes")
+@Document(collection = "budget_analysis")
 @Data
-@NoArgsConstructor
 @AllArgsConstructor
-public class Income {
+@NoArgsConstructor
+public class BudgetAnalysis {
 
     @Id
     private String id;
     private String userId;
-    private String incomeType;
-    private BigDecimal amount;
-    private Date date;
-
-
-
+    private BigDecimal totalBudgeted;
+    private BigDecimal totalSpent;
+    private BigDecimal budgetVariance; // Difference between budgeted and spent amounts
 }

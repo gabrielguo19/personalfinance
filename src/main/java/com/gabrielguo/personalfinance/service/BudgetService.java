@@ -5,8 +5,12 @@ import com.gabrielguo.personalfinance.model.Budget;
 import com.gabrielguo.personalfinance.repository.BudgetRepository;
 import com.gabrielguo.personalfinance.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -21,7 +25,7 @@ public class BudgetService {
 
     /**
      * Creates a new budget and associates it with a user.
-     * Checks if the user exists before creating the budget.
+     * Sets the end date to null initially.
      *
      * @param budget the budget details to be created
      * @param userId the ID of the user who is creating the budget
@@ -33,6 +37,7 @@ public class BudgetService {
             throw new ResourceNotFoundException("User not found with ID: " + userId);
         }
         budget.setUserId(userId);
+        budget.setEndDate(null); // Set end date to null when creating a new budget
         return budgetRepository.save(budget);
     }
 
@@ -105,7 +110,7 @@ public class BudgetService {
 
     /**
      * Deletes a budget identified by its ID.
-     * Validates that the userId associated with the budget matches the user making the request.
+     * Instead of removing the budget, sets its end date to the current date.
      *
      * @param budgetId the ID of the budget to be deleted
      * @param userId the ID of the user making the request
@@ -126,7 +131,10 @@ public class BudgetService {
             throw new ResourceNotFoundException("User not authorized to delete this budget.");
         }
 
-        // Delete the budget
-        budgetRepository.deleteById(budgetId);
+        // Set the end date to the current date
+        existingBudget.setEndDate(Date.from(LocalDate.now().atStartOfDay(ZoneId.systemDefault()).toInstant()));
+
+        // Save the updated budget with the new end date
+        budgetRepository.save(existingBudget);
     }
 }

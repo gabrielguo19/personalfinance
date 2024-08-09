@@ -58,7 +58,7 @@ public class IncomeServiceTest {
     public void testCreateIncome_Success() throws ParseException {
         // Arrange: Set up valid income data and mock repository responses
         Date incomeDate = parseDate("2024-08-01");
-        Income income = new Income("1", "userId", "Salary", BigDecimal.valueOf(1000.0));
+        Income income = new Income("1", "userId", "Salary", BigDecimal.valueOf(1000.0), incomeDate);
         when(userRepository.existsById("userId")).thenReturn(true);
         when(incomeRepository.save(income)).thenReturn(income);
 
@@ -75,8 +75,8 @@ public class IncomeServiceTest {
         // Arrange: Set up mock incomes and mock repository response
         Date incomeDate1 = parseDate("2024-08-01");
         Date incomeDate2 = parseDate("2024-08-02");
-        Income income1 = new Income("1", "userId", "Salary", BigDecimal.valueOf(1000.0));
-        Income income2 = new Income("2", "userId", "Freelance", BigDecimal.valueOf(500.0));
+        Income income1 = new Income("1", "userId", "Salary", BigDecimal.valueOf(1000.0), incomeDate1);
+        Income income2 = new Income("2", "userId", "Freelance", BigDecimal.valueOf(500.0), incomeDate2);
         when(incomeRepository.findByUserId("userId")).thenReturn(Arrays.asList(income1, income2));
 
         // Act: Call the service method to get all incomes
@@ -92,7 +92,7 @@ public class IncomeServiceTest {
     public void testGetIncomeById_Success() throws ParseException {
         // Arrange: Set up mock income and mock repository response
         Date incomeDate = parseDate("2024-08-01");
-        Income income = new Income("1", "userId", "Salary", BigDecimal.valueOf(1000.0));
+        Income income = new Income("1", "userId", "Salary", BigDecimal.valueOf(1000.0), incomeDate);
         when(incomeRepository.findById("1")).thenReturn(Optional.of(income));
 
         // Act: Call the service method to get the income by ID
@@ -118,8 +118,8 @@ public class IncomeServiceTest {
         // Arrange: Set up existing and updated income data, and mock repository responses
         Date existingDate = parseDate("2024-08-01");
         Date updatedDate = parseDate("2024-08-01");
-        Income existingIncome = new Income("1", "userId", "Salary", BigDecimal.valueOf(1000.0));
-        Income updatedIncome = new Income("1", "userId", "Salary", BigDecimal.valueOf(1200.0));
+        Income existingIncome = new Income("1", "userId", "Salary", BigDecimal.valueOf(1000.0), existingDate);
+        Income updatedIncome = new Income("1", "userId", "Salary", BigDecimal.valueOf(1200.0), updatedDate);
         when(incomeRepository.findById("1")).thenReturn(Optional.of(existingIncome));
         when(incomeRepository.save(updatedIncome)).thenReturn(updatedIncome);
 
@@ -135,8 +135,8 @@ public class IncomeServiceTest {
     public void testUpdateIncome_UserNotAuthorized() throws ParseException {
         // Arrange: Set up existing income belonging to another user and an update attempt from a different user
         Date existingDate = parseDate("2024-08-01");
-        Income existingIncome = new Income("1", "anotherUserId", "Salary", BigDecimal.valueOf(1000.0));
-        Income updatedIncome = new Income("1", "userId", "Salary", BigDecimal.valueOf(1200.0));
+        Income existingIncome = new Income("1", "anotherUserId", "Salary", BigDecimal.valueOf(1000.0), existingDate);
+        Income updatedIncome = new Income("1", "userId", "Salary", BigDecimal.valueOf(1200.0), existingDate);
         when(incomeRepository.findById("1")).thenReturn(Optional.of(existingIncome));
 
         // Act & Assert: Verify that trying to update an income when not authorized throws ResourceNotFoundException
@@ -149,7 +149,7 @@ public class IncomeServiceTest {
     public void testDeleteIncome_Success() throws ParseException {
         // Arrange: Set up existing income and mock repository response
         Date incomeDate = parseDate("2024-08-01");
-        Income existingIncome = new Income("1", "userId", "Salary", BigDecimal.valueOf(1000.0));
+        Income existingIncome = new Income("1", "userId", "Salary", BigDecimal.valueOf(1000.0), incomeDate);
         when(incomeRepository.findById("1")).thenReturn(Optional.of(existingIncome));
 
         // Act: Call the service method to delete the income

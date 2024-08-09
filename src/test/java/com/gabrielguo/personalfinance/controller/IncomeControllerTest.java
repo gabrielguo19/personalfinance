@@ -47,15 +47,13 @@ public class IncomeControllerTest {
         Instant instant = formatter.parse("2024-08-02T00:00:00.000Z", Instant::from);
         Date fixedDate = Date.from(instant);
 
-        long fixedDateTimestamp = fixedDate.getTime();
-
-        Income income = new Income("1", "user1", "Salary", BigDecimal.valueOf(1000));
+        Income income = new Income("1", "user1", "Salary", BigDecimal.valueOf(1000), fixedDate);
 
         when(incomeService.createIncome(any(Income.class), anyString())).thenReturn(income);
 
         mockMvc.perform(post("/api/incomes?userId=user1")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content("{\"incomeType\":\"Salary\",\"amount\":1000}"))
+                        .content("{\"incomeType\":\"Salary\",\"amount\":1000,\"date\":\"2024-08-02T00:00:00Z\"}"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id").value("1"))
                 .andExpect(jsonPath("$.userId").value("user1"))
@@ -65,8 +63,14 @@ public class IncomeControllerTest {
 
     @Test
     public void testGetAllIncomes() throws Exception {
-        Income income1 = new Income("1", "user1", "Salary", BigDecimal.valueOf(1000));
-        Income income2 = new Income("2", "user1", "Freelance", BigDecimal.valueOf(500));
+        DateTimeFormatter formatter = DateTimeFormatter.ISO_DATE_TIME.withZone(ZoneOffset.UTC);
+        Instant instant1 = formatter.parse("2024-08-01T00:00:00.000Z", Instant::from);
+        Instant instant2 = formatter.parse("2024-08-02T00:00:00.000Z", Instant::from);
+        Date date1 = Date.from(instant1);
+        Date date2 = Date.from(instant2);
+
+        Income income1 = new Income("1", "user1", "Salary", BigDecimal.valueOf(1000), date1);
+        Income income2 = new Income("2", "user1", "Freelance", BigDecimal.valueOf(500), date2);
 
         when(incomeService.getAllIncomes(anyString())).thenReturn(Arrays.asList(income1, income2));
 
@@ -75,12 +79,16 @@ public class IncomeControllerTest {
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$[0].userId").value("user1"))
-                .andExpect(jsonPath("$[1].amount").value(500));
+                .andExpect(jsonPath("$[0].amount").value(1000));
     }
 
     @Test
     public void testGetIncomeById() throws Exception {
-        Income income = new Income("1", "user1", "Salary", BigDecimal.valueOf(1000));
+        DateTimeFormatter formatter = DateTimeFormatter.ISO_DATE_TIME.withZone(ZoneOffset.UTC);
+        Instant instant = formatter.parse("2024-08-02T00:00:00.000Z", Instant::from);
+        Date fixedDate = Date.from(instant);
+
+        Income income = new Income("1", "user1", "Salary", BigDecimal.valueOf(1000), fixedDate);
 
         when(incomeService.getIncomeById(anyString(), anyString())).thenReturn(income);
 
@@ -95,14 +103,18 @@ public class IncomeControllerTest {
 
     @Test
     public void testUpdateIncome() throws Exception {
-        Income updatedIncome = new Income("1", "user1", "Salary", BigDecimal.valueOf(1200));
+        DateTimeFormatter formatter = DateTimeFormatter.ISO_DATE_TIME.withZone(ZoneOffset.UTC);
+        Instant instant = formatter.parse("2024-08-02T00:00:00.000Z", Instant::from);
+        Date fixedDate = Date.from(instant);
+
+        Income updatedIncome = new Income("1", "user1", "Salary", BigDecimal.valueOf(1200), fixedDate);
 
         when(incomeService.updateIncome(anyString(), any(Income.class), anyString())).thenReturn(updatedIncome);
 
         mockMvc.perform(put("/api/incomes/{incomeId}", "1")
                         .param("userId", "user1")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content("{\"incomeType\":\"Salary\",\"amount\":1200}"))
+                        .content("{\"incomeType\":\"Salary\",\"amount\":1200,\"date\":\"2024-08-02T00:00:00Z\"}"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.amount").value(1200))
                 .andExpect(jsonPath("$.incomeType").value("Salary"));

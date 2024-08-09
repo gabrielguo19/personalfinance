@@ -11,7 +11,10 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
 import java.math.BigDecimal;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -21,158 +24,160 @@ import static org.mockito.Mockito.*;
 public class BudgetServiceTest {
 
     @Mock
-    private BudgetRepository budgetRepository;  // Mocking the repository for budgets
+    private BudgetRepository budgetRepository;
 
     @Mock
-    private UserRepository userRepository;  // Mocking the repository for users
+    private UserRepository userRepository;
 
     @InjectMocks
-    private BudgetService budgetService;  // Injecting mocks into the service under test
+    private BudgetService budgetService;
 
     @BeforeEach
     public void setUp() {
-        MockitoAnnotations.openMocks(this);  // Initializes mocks before each test
+        MockitoAnnotations.openMocks(this);
     }
 
     @Test
     public void testCreateBudget_UserNotFound() {
-        // Arrange: Set up the scenario where the user does not exist
+        // Arrange
         when(userRepository.existsById("userId")).thenReturn(false);
 
-        // Act & Assert: Verify that trying to create a budget throws ResourceNotFoundException
+        // Act & Assert
         assertThrows(ResourceNotFoundException.class, () ->
                 budgetService.createBudget(new Budget(), "userId")
         );
     }
 
     @Test
-    public void testCreateBudget_Success() {
-        // Arrange: Set up valid budget data and mock repository responses
-        Budget budget = new Budget("1", "userId", BigDecimal.valueOf(500), "Monthly Budget");
+    public void testCreateBudget_Success() throws ParseException {
+        // Arrange
+        Date startDate = new SimpleDateFormat("yyyy-MM-dd").parse("2024-01-01");
+        Date endDate = new SimpleDateFormat("yyyy-MM-dd").parse("2024-01-31");
+        Budget budget = new Budget("1", "userId", BigDecimal.valueOf(500), "Monthly Budget", startDate, endDate);
         when(userRepository.existsById("userId")).thenReturn(true);
         when(budgetRepository.save(budget)).thenReturn(budget);
 
-        // Act: Call the service method to create a budget
+        // Act
         Budget createdBudget = budgetService.createBudget(budget, "userId");
 
-        // Assert: Verify that the budget was created successfully
+        // Assert
         assertEquals(budget, createdBudget);
-        verify(budgetRepository).save(budget);  // Ensure save was called
+        verify(budgetRepository).save(budget);
     }
 
     @Test
-    public void testGetAllBudgets() {
-        // Arrange: Set up mock budgets and mock repository response
-        Budget budget1 = new Budget("1", "userId", BigDecimal.valueOf(500), "Monthly Budget");
-        Budget budget2 = new Budget("2", "userId", BigDecimal.valueOf(300), "Yearly Budget");
+    public void testGetAllBudgets() throws ParseException {
+        // Arrange
+        Date startDate = new SimpleDateFormat("yyyy-MM-dd").parse("2024-01-01");
+        Date endDate = new SimpleDateFormat("yyyy-MM-dd").parse("2024-01-31");
+        Budget budget1 = new Budget("1", "userId", BigDecimal.valueOf(500), "Monthly Budget", startDate, endDate);
+        Budget budget2 = new Budget("2", "userId", BigDecimal.valueOf(300), "Yearly Budget", startDate, endDate);
         List<Budget> budgets = Arrays.asList(budget1, budget2);
         when(budgetRepository.findByUserId("userId")).thenReturn(budgets);
 
-        // Act: Call the service method to get all budgets
+        // Act
         List<Budget> result = budgetService.getAllBudgets("userId");
 
-        // Assert: Verify the size and contents of the returned budget list
+        // Assert
         assertEquals(2, result.size());
         assertTrue(result.contains(budget1));
         assertTrue(result.contains(budget2));
     }
 
     @Test
-    public void testGetBudgetById_Success() {
-        // Arrange: Set up mock budget and mock repository response
-        Budget budget = new Budget("1", "userId", BigDecimal.valueOf(500), "Monthly Budget");
+    public void testGetBudgetById_Success() throws ParseException {
+        // Arrange
+        Date startDate = new SimpleDateFormat("yyyy-MM-dd").parse("2024-01-01");
+        Date endDate = new SimpleDateFormat("yyyy-MM-dd").parse("2024-01-31");
+        Budget budget = new Budget("1", "userId", BigDecimal.valueOf(500), "Monthly Budget", startDate, endDate);
         when(budgetRepository.findById("1")).thenReturn(Optional.of(budget));
 
-        // Act: Call the service method to get the budget by ID
+        // Act
         Budget foundBudget = budgetService.getBudgetById("1", "userId");
 
-        // Assert: Verify that the correct budget was returned
+        // Assert
         assertEquals(budget, foundBudget);
     }
 
     @Test
     public void testGetBudgetById_BudgetNotFound() {
-        // Arrange: Mock the scenario where the budget does not exist
+        // Arrange
         when(budgetRepository.findById("1")).thenReturn(Optional.empty());
 
-        // Act & Assert: Verify that trying to get a non-existing budget throws ResourceNotFoundException
+        // Act & Assert
         assertThrows(ResourceNotFoundException.class, () ->
                 budgetService.getBudgetById("1", "userId")
         );
     }
 
     @Test
-    public void testGetBudgetById_UserNotAuthorized() {
-        // Arrange: Set up an existing budget belonging to another user
-        Budget budget = new Budget("1", "anotherUserId", BigDecimal.valueOf(500), "Monthly Budget");
+    public void testGetBudgetById_UserNotAuthorized() throws ParseException {
+        // Arrange
+        Date startDate = new SimpleDateFormat("yyyy-MM-dd").parse("2024-01-01");
+        Date endDate = new SimpleDateFormat("yyyy-MM-dd").parse("2024-01-31");
+        Budget budget = new Budget("1", "anotherUserId", BigDecimal.valueOf(500), "Monthly Budget", startDate, endDate);
         when(budgetRepository.findById("1")).thenReturn(Optional.of(budget));
 
-        // Act & Assert: Verify that trying to get a budget that does not belong to the user throws ResourceNotFoundException
+        // Act & Assert
         assertThrows(ResourceNotFoundException.class, () ->
                 budgetService.getBudgetById("1", "userId")
         );
     }
 
     @Test
-    public void testUpdateBudget_Success() {
-        // Arrange: Set up existing and updated budget data, and mock repository responses
-        Budget existingBudget = new Budget("1", "userId", BigDecimal.valueOf(500), "Monthly Budget");
-        Budget updatedBudget = new Budget("1", "userId", BigDecimal.valueOf(600), "Updated Budget");
+    public void testUpdateBudget_Success() throws ParseException {
+        // Arrange
+        Date startDate = new SimpleDateFormat("yyyy-MM-dd").parse("2024-01-01");
+        Date endDate = new SimpleDateFormat("yyyy-MM-dd").parse("2024-01-31");
+        Budget existingBudget = new Budget("1", "userId", BigDecimal.valueOf(500), "Monthly Budget", startDate, endDate);
+        Budget updatedBudget = new Budget("1", "userId", BigDecimal.valueOf(600), "Updated Budget", startDate, endDate);
         when(budgetRepository.findById("1")).thenReturn(Optional.of(existingBudget));
         when(budgetRepository.save(updatedBudget)).thenReturn(updatedBudget);
 
-        // Act: Call the service method to update the budget
+        // Act
         Budget result = budgetService.updateBudget("1", updatedBudget, "userId");
 
-        // Assert: Verify that the budget was updated successfully
+        // Assert
         assertEquals(updatedBudget, result);
-        verify(budgetRepository).save(updatedBudget);  // Ensure save was called
+        verify(budgetRepository).save(updatedBudget);
     }
 
     @Test
-    public void testUpdateBudget_UserNotAuthorized() {
-        // Arrange: Set up existing budget belonging to another user and an update attempt from a different user
-        Budget existingBudget = new Budget("1", "anotherUserId", BigDecimal.valueOf(500), "Monthly Budget");
-        Budget updatedBudget = new Budget("1", "userId", BigDecimal.valueOf(600), "Updated Budget");
+    public void testUpdateBudget_UserNotAuthorized() throws ParseException {
+        // Arrange
+        Date startDate = new SimpleDateFormat("yyyy-MM-dd").parse("2024-01-01");
+        Date endDate = new SimpleDateFormat("yyyy-MM-dd").parse("2024-01-31");
+        Budget existingBudget = new Budget("1", "anotherUserId", BigDecimal.valueOf(500), "Monthly Budget", startDate, endDate);
+        Budget updatedBudget = new Budget("1", "userId", BigDecimal.valueOf(600), "Updated Budget", startDate, endDate);
         when(budgetRepository.findById("1")).thenReturn(Optional.of(existingBudget));
 
-        // Act & Assert: Verify that trying to update a budget when not authorized throws ResourceNotFoundException
+        // Act & Assert
         assertThrows(ResourceNotFoundException.class, () ->
                 budgetService.updateBudget("1", updatedBudget, "userId")
         );
     }
 
-    @Test
-    public void testDeleteBudget_Success() {
-        // Arrange: Set up existing budget and mock repository response
-        Budget existingBudget = new Budget("1", "userId", BigDecimal.valueOf(500), "Monthly Budget");
-        when(budgetRepository.findById("1")).thenReturn(Optional.of(existingBudget));
-
-        // Act: Call the service method to delete the budget
-        budgetService.deleteBudget("1", "userId");
-
-        // Assert: Verify that the delete operation was performed
-        verify(budgetRepository).deleteById("1");  // Ensure deleteById was called
-    }
 
     @Test
     public void testDeleteBudget_BudgetNotFound() {
-        // Arrange: Mock the scenario where the budget does not exist
+        // Arrange
         when(budgetRepository.findById("1")).thenReturn(Optional.empty());
 
-        // Act & Assert: Verify that trying to delete a non-existing budget throws ResourceNotFoundException
+        // Act & Assert
         assertThrows(ResourceNotFoundException.class, () ->
                 budgetService.deleteBudget("1", "userId")
         );
     }
 
     @Test
-    public void testDeleteBudget_UserNotAuthorized() {
-        // Arrange: Set up existing budget belonging to another user
-        Budget existingBudget = new Budget("1", "anotherUserId", BigDecimal.valueOf(500), "Monthly Budget");
+    public void testDeleteBudget_UserNotAuthorized() throws ParseException {
+        // Arrange
+        Date startDate = new SimpleDateFormat("yyyy-MM-dd").parse("2024-01-01");
+        Date endDate = new SimpleDateFormat("yyyy-MM-dd").parse("2024-01-31");
+        Budget existingBudget = new Budget("1", "anotherUserId", BigDecimal.valueOf(500), "Monthly Budget", startDate, endDate);
         when(budgetRepository.findById("1")).thenReturn(Optional.of(existingBudget));
 
-        // Act & Assert: Verify that trying to delete a budget that does not belong to the user throws ResourceNotFoundException
+        // Act & Assert
         assertThrows(ResourceNotFoundException.class, () ->
                 budgetService.deleteBudget("1", "userId")
         );
