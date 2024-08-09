@@ -16,6 +16,7 @@ This is a Spring Boot application for personal finance management. It includes a
 ```sh
 git clone https://github.com/yourusername/your-repo-name.git
 cd your-repo-name
+```
 
 ### 2. Google API Credentials
 Go to the Google Cloud Console.
@@ -43,9 +44,9 @@ spring.autoconfigure.exclude[0]=org.springframework.boot.autoconfigure.security.
 
 
 ### 4. Install MAVEN dependencies
-'''
+```
 mvn clean install
-'''
+```
 or use my pom.xml file to install all maven dependencies
 
 When you use Postman to test endpoints, you should see JSON updates in your MongoDB compass
@@ -54,7 +55,7 @@ When you use Postman to test endpoints, you should see JSON updates in your Mong
 You can access all the RESTful Api Documentation through Swagger/OpenAPI at
 ```
 http://localhost:8080/swagger-ui/index.html#/
-
+```
 
 
 
