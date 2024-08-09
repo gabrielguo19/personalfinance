@@ -26,7 +26,7 @@ cd your-repo-name
 - Application type: Web application 
 - Authorized redirect URIs: http://localhost:8080/oauth2/callback 
 - Download the credentials.json file and place it in the src/main/resources directory of the project. 
-Make sure to edit the GmailService class gmail sender adress with your own for it to send emails as intended:
+- Make sure to edit the GmailService class gmail sender adress with your own for it to send emails as intended:
 ```
 email.setFrom(new InternetAddress("yourgmail@gmail.com"))) 
 ```
