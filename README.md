@@ -79,7 +79,7 @@ Alternatively, you can use the provided **pom.xml** file to install all necessar
 - Verify that you see JSON updates in MongoDB Compass or your preferred MongoDB tool. 
 
 ## 6. API Documentation
-Access the RESTful API documentation through Swagger/OpenAPI at:
+After running the project, access the RESTful API documentation through Swagger/OpenAPI at:
 ```
 http://localhost:8080/swagger-ui/index.html#/ 
 ```
