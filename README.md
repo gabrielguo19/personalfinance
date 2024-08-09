@@ -57,9 +57,9 @@ Copy the connection string provided. \
 ```
 spring.application.name=personalfinance
 spring.data.mongodb.database=YourDatabaseName
-spring.data.mongodb.uri=mongodb+srv://username:<password>@clustername.smth.mongodb.net/
+spring.data.mongodb.uri=mongodb+srv://username:password@clustername.smth.mongodb.net/
 ```
-Replace username, <password>, YourDatabaseName, and clustername with your actual MongoDB credentials and database name. \
+Replace username, password, YourDatabaseName, and clustername with your actual MongoDB credentials and database name. \
 
 ### Disable Security Auto-Configuration (For Testing)
 Add the folling line to your application.properties
