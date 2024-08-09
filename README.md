@@ -19,14 +19,14 @@ cd your-repo-name
 ```
 
 ### 2. Google API Credentials
-Go to the Google Cloud Console. \
-Create a new project or select an existing project. \
-Navigate to the API & Services > Credentials. \
-Create OAuth 2.0 Client IDs with the following settings: \
-Application type: Web application \
-Authorized redirect URIs: http://localhost:8080/oauth2/callback \
-Download the credentials.json file and place it in the src/main/resources directory of the project. \
-Make sure to edit the GmailService class gmail sender adress with your own for it to send emails as intended. 
+- Go to the Google Cloud Console. \
+- Create a new project or select an existing project. \
+- Navigate to the API & Services > Credentials. \
+- Create OAuth 2.0 Client IDs with the following settings: \
+- Application type: Web application \
+- Authorized redirect URIs: http://localhost:8080/oauth2/callback \
+- Download the credentials.json file and place it in the src/main/resources directory of the project. \
+- Make sure to edit the GmailService class gmail sender adress with your own for it to send emails as intended:
 ```
 email.setFrom(new InternetAddress("yourgmail@gmail.com"))) \
 ```
@@ -58,11 +58,11 @@ spring.autoconfigure.exclude[0]=org.springframework.boot.autoconfigure.security.
 ```
 mvn clean install
 ```
-Alternatively, you can use the provided **pom.xml** file to install all necessary dependencies. \
+Alternatively, you can use the provided **pom.xml** file to install all necessary dependencies. 
 
 ### 5. Test Endpoints
-- Use [Postman](https://www.postman.com/) or another API testing tool to test the endpoints. \
-- Verify that you see JSON updates in MongoDB Compass or your preferred MongoDB tool. \
+- Use [Postman](https://www.postman.com/) or another API testing tool to test the endpoints. 
+- Verify that you see JSON updates in MongoDB Compass or your preferred MongoDB tool. 
 
 ### 5. API Documentation
 Access the RESTful API documentation through Swagger/OpenAPI at:
