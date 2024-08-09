@@ -2,8 +2,7 @@
 # Personal Finance Application(Spring Boot Backend)
 
 ## Introduction
-This Spring Boot application is designed to be a comprehensive backend solution for personal finance management. It provides an extensive set of features aimed at helping individuals effectively manage their finances. The inspiration came from a lack of cohesive budgeting from my own family. \
-The application includes:
+This Spring Boot application is designed to be a comprehensive backend solution for personal finance management. It provides an extensive set of features aimed at helping individuals effectively manage their finances. The inspiration came from a lack of cohesive budgeting from my own family. The application includes:
 
 - **OAuth2 Integration:** Utilizes the Google Gmail API to enable seamless email communication. This feature allows users to send and receive emails securely as part of their financial management.
 
