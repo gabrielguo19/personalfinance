@@ -36,11 +36,15 @@ the copied link you will then put in an application.properties file in your proj
 mongodb+srv://username:<password>@cluster1finance.smth.mongodb.net/ \
 
 it will be something like this: \
-spring.application.name=personalfinance \
-spring.data.mongodb.database=Your Database Name \
-spring.data.mongodb.uri=mongodb+srv://username:<password>@cluster1finance.smth.mongodb.net/ \
+```
+spring.application.name=personalfinance 
+spring.data.mongodb.database=Your Database Name 
+spring.data.mongodb.uri=mongodb+srv://username:<password>@cluster1finance.smth.mongodb.net/
+```
 Just to disable security servlet for now - for testing purposes... put the following line in your application.properties file \
-spring.autoconfigure.exclude[0]=org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration \
+```
+spring.autoconfigure.exclude[0]=org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration
+```
 
 
 ### 4. Install MAVEN dependencies
