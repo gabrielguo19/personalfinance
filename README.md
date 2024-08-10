@@ -1,5 +1,5 @@
 
-# Personal Finance Application - Gabriel Guo
+# Personal Finance Application 
 
 ## Introduction
 This **Spring Boot** application is designed to be a comprehensive backend solution for personal finance management. It provides an extensive set of features aimed at helping individuals effectively manage their finances. The inspiration came from a lack of cohesive budgeting from my own family. The application includes:
